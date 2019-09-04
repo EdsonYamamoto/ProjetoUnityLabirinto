@@ -33,8 +33,6 @@ public class ScrollViewer : MonoBehaviour
 
     void OnReceivedNewModels(ScoreItem[] models)
     {
-        int i = 0;
-
         foreach (Transform child in content)
         {
             Destroy(child.gameObject);
@@ -48,8 +46,11 @@ public class ScrollViewer : MonoBehaviour
             ExampleItemView view = InitializeItemView(instance, model);
 
             views.Add(view);
-            i++;
         }
+    }
+
+    void Update() {
+        Debug.Log("teste");
     }
 
     ExampleItemView InitializeItemView(GameObject viewGameObject, ScoreItem model)
@@ -57,7 +58,7 @@ public class ScrollViewer : MonoBehaviour
         ExampleItemView view = new ExampleItemView(viewGameObject.transform);
 
         view.nome.text = model.Nome;
-        view.pontos.text = model.Pontos;
+        view.pontos.text = model.Tempo.ToString();
 
         return view;
     }
@@ -78,7 +79,7 @@ public class ScrollViewer : MonoBehaviour
     public class ScoreItem
     {
         public string Nome;
-        public string Pontos;
+        public float Tempo;
     }
 
     [Serializable]
@@ -86,4 +87,5 @@ public class ScrollViewer : MonoBehaviour
     {
         public ScoreItem[] scores;
     }
+
 }
