@@ -11,7 +11,7 @@ public class ScrollViewer : MonoBehaviour
     public ScrollRect scrollView;
     public RectTransform content;
 
-    List<ExampleItemView> views = new List<ExampleItemView>();
+    static List<ExampleItemView> views = new List<ExampleItemView>();
     // Start is called before the first frame update
     void Start()
     {
@@ -49,10 +49,13 @@ public class ScrollViewer : MonoBehaviour
         }
     }
 
-    void Update() {
-        Debug.Log("teste");
-    }
+    public static void AtualizaPlacar()
+    {
+        views.Clear();
+        Debug.Log(Jogador.Nome);
+        Debug.Log(Jogador.Tempo);
 
+    }
     ExampleItemView InitializeItemView(GameObject viewGameObject, ScoreItem model)
     {
         ExampleItemView view = new ExampleItemView(viewGameObject.transform);
