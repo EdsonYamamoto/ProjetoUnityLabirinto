@@ -71,27 +71,38 @@ public class ScrollViewer : MonoBehaviour
 
 
         GameObject instance = GameObject.Instantiate(prefabPrivate.gameObject) as GameObject;
-         instance.transform.SetParent(contentPrivate.GetComponent<Transform>().transform);
+        instance.transform.SetParent(contentPrivate.GetComponent<Transform>().transform);
 
-        ExampleItemView view = InitializeItemView(instance, model);
+        bool menorTempo = false;
+        ScoreItem Score= null;
 
         views.Clear();
-        
-        foreach (ScoreItem score in scores.scores)
-        {
-            if (model.Tempo < score.Tempo)
-                Debug.Log("Verdade");
-            
+        ScoreItem[] resultados = new ScoreItem[scores.scores.Length];
+        for(int i=0 ;i< scores.scores.Length;i++)
+            resultados[i] = scores.scores[i];
+        resultados[scores.scores.Length - 1] = model;
+
+        ScoreItem repos = null;
+        for (int i = 0; i < scores.scores.Length; i++) {
+            for (int j = 0; j < scores.scores.Length - (i + 1); j++) {
+                if (resultados[j].Tempo > resultados[j + 1].Tempo)
+                {
+                    repos = resultados[j];
+                    resultados[j] = resultados[j + 1];
+                    resultados[j + 1] = repos;
+                }
+            }
         }
-        foreach (ScoreItem score in scores.scores)
-        {
+
+        scores.scores = resultados;
+
+        foreach (ScoreItem score in resultados) {
             instance = GameObject.Instantiate(prefabPrivate.gameObject) as GameObject;
             instance.transform.SetParent(contentPrivate, false);
-            view = InitializeItemView(instance, score);
+            ExampleItemView view = InitializeItemView(instance, score);
 
             views.Add(view);
         }
-
 
     }
     static ExampleItemView InitializeItemView(GameObject viewGameObject, ScoreItem model)
