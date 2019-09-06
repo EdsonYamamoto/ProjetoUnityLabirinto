@@ -40,6 +40,7 @@ public class timer : MonoBehaviour
         fim = false;
         Jogador.Tempo = tempo;
         Jogador.Nome = inputPlayerName.GetComponent<InputField>().text;
+        tempo = 0;
         ScrollViewer.AtualizaPlacar();
     }
 }
