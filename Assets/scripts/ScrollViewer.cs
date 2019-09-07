@@ -17,6 +17,8 @@ public class ScrollViewer : MonoBehaviour
     static Scores scores;
 
     static List<ExampleItemView> views = new List<ExampleItemView>();
+    static string filePath = "assets/armazenamentoDados/placar.json";
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +28,7 @@ public class ScrollViewer : MonoBehaviour
 
         string json = "";
 
-        using (StreamReader r = new StreamReader("assets/armazenamentoDados/placar.json"))
+        using (StreamReader r = new StreamReader(filePath))
         {
             json = r.ReadToEnd();
         }
@@ -95,6 +97,12 @@ public class ScrollViewer : MonoBehaviour
         }
 
         scores.scores = resultados;
+        string jsonString = JsonUtility.ToJson(scores);
+
+        using (StreamWriter streamWriter = File.CreateText(filePath))
+        {
+            streamWriter.Write(jsonString);
+        }
 
         foreach (ScoreItem score in resultados) {
             instance = GameObject.Instantiate(prefabPrivate.gameObject) as GameObject;
